@@ -1,0 +1,28 @@
+{
+  "graphs": [
+    {
+      "id": "sine-wave",
+      "title": "Sine Wave Explorer",
+      "description": "An interactive visualization of sine waves with adjustable amplitude, frequency, and phase.",
+      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
+      "initialExpression": "y=\\sin(x)",
+      "tags": ["trigonometry", "periodic functions"]
+    },
+    {
+      "id": "quadratic",
+      "title": "Quadratic Function",
+      "description": "Explore how changing coefficients affects the shape of parabolas.",
+      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
+      "initialExpression": "y=x^2",
+      "tags": ["algebra", "polynomials"]
+    },
+    {
+      "id": "unit-circle",
+      "title": "Unit Circle",
+      "description": "Visualize trigonometric relationships on the unit circle.",
+      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
+      "initialExpression": "x^2+y^2=1",
+      "tags": ["trigonometry", "geometry"]
+    }
+  ]
+}

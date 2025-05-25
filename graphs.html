@@ -1,0 +1,157 @@
+---
+layout: default
+title: Graph Browser
+---
+
+<div class="container mt-4">
+    <h1 class="mb-4">Graph Browser</h1>
+    
+    <div class="row mb-4">
+        <div class="col">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search graphs...">
+                <button class="btn btn-outline-secondary" type="button" id="clearSearch">Clear</button>
+            </div>
+        </div>
+        <div class="col-auto">
+            <select id="tagFilter" class="form-select">
+                <option value="">All Tags</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="graphsContainer" class="row g-4">
+        <!-- Graphs will be dynamically inserted here -->
+    </div>
+</div>
+
+<template id="graphCardTemplate">
+    <div class="col-md-6 col-lg-4 graph-card">
+        <div class="card h-100">
+            <div class="calculator-preview" style="height: 200px;"></div>
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text description"></p>
+                <div class="tags mb-2"></div>
+                <button class="btn btn-primary view-graph">View Full Graph</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style>
+    .tag-badge {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+    }
+    .calculator-preview {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let graphs = [];
+    const graphsContainer = document.getElementById('graphsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const tagFilter = document.getElementById('tagFilter');
+    const clearSearch = document.getElementById('clearSearch');
+    const template = document.getElementById('graphCardTemplate');
+
+    // Fetch graphs data
+    fetch('{{ site.baseurl }}/_data/graphs.json')
+        .then(response => response.json())
+        .then(data => {
+            graphs = data.graphs;
+            
+            // Collect unique tags
+            const tags = new Set();
+            graphs.forEach(graph => {
+                graph.tags.forEach(tag => tags.add(tag));
+            });
+            
+            // Populate tag filter
+            tags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.textContent = tag;
+                tagFilter.appendChild(option);
+            });
+            
+            renderGraphs();
+        });
+
+    function renderGraphs(searchTerm = '', tagFilter = '') {
+        graphsContainer.innerHTML = '';
+        
+        const filteredGraphs = graphs.filter(graph => {
+            const matchesSearch = !searchTerm || 
+                graph.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                graph.description.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesTag = !tagFilter || graph.tags.includes(tagFilter);
+            return matchesSearch && matchesTag;
+        });
+
+        filteredGraphs.forEach(graph => {
+            const clone = template.content.cloneNode(true);
+            
+            const card = clone.querySelector('.graph-card');
+            const title = clone.querySelector('.card-title');
+            const description = clone.querySelector('.card-text');
+            const tagsContainer = clone.querySelector('.tags');
+            const previewContainer = clone.querySelector('.calculator-preview');
+            
+            title.textContent = graph.title;
+            description.textContent = graph.description;
+            
+            // Add tags
+            graph.tags.forEach(tag => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-secondary tag-badge';
+                badge.textContent = tag;
+                badge.addEventListener('click', () => {
+                    tagFilter.value = tag;
+                    renderGraphs(searchInput.value, tag);
+                });
+                tagsContainer.appendChild(badge);
+            });
+
+            // Initialize Desmos preview
+            const calculator = Desmos.GraphingCalculator(previewContainer, {
+                keypad: false,
+                expressions: false,
+                settingsMenu: false,
+                zoomButtons: false,
+                pointsOfInterest: false,
+                trace: false
+            });
+            calculator.setExpression({ latex: graph.initialExpression });
+
+            // Add view button handler
+            const viewButton = clone.querySelector('.view-graph');
+            viewButton.addEventListener('click', () => {
+                window.location.href = `{{ site.baseurl }}/graph/${graph.id}`;
+            });
+            
+            graphsContainer.appendChild(clone);
+        });
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', () => {
+        renderGraphs(searchInput.value, tagFilter.value);
+    });
+
+    tagFilter.addEventListener('change', () => {
+        renderGraphs(searchInput.value, tagFilter.value);
+    });
+
+    clearSearch.addEventListener('click', () => {
+        searchInput.value = '';
+        tagFilter.value = '';
+        renderGraphs();
+    });
+});
+</script>
