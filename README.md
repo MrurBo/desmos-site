@@ -6,8 +6,8 @@ A Jekyll-based website to showcase and manage your Desmos graph collection. Feat
 
 - Dynamic graph browser with search and tag filtering
 - Responsive design using Bootstrap 5
-- Embedded Desmos graph previews
-- Tag-based navigation
+- Non-interactive Desmos graph previews
+- Multi-select tag filtering system with descriptions
 - Fast and efficient loading
 
 ## 🛠️ CLI Tool Usage
@@ -31,12 +31,14 @@ pip install -r requirements.txt
 2. **Add a new graph**
    ```bash
    python cli.py add
-   ```
-   Interactive prompt to add a new graph with:
+   ```   Interactive prompt to add a new graph with:
    - Title
+   - Author
    - Description
    - Desmos graph link
    - Tags (comma-separated)
+   
+   Note: Graphs must include at least one of these tags: graphs, geometry, or 3d
 
 3. **Edit a graph**
    ```bash
