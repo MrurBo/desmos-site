@@ -1,0 +1,11 @@
+title: Desmos Graphs
+description: A collection of interactive mathematical visualizations
+baseurl: ""
+url: ""
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag

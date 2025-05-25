@@ -1,0 +1,79 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4">Interactive Math Visualizations</h1>
+                <p class="lead">Explore mathematical concepts through interactive Desmos graphs</p>
+                <a href="{{ site.baseurl }}/graphs" class="btn btn-light btn-lg">Explore Graphs</a>
+            </div>
+            <div class="col-md-6">
+                <div id="calculator" class="calculator"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Featured Graphs</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sine Wave</h5>
+                    <p class="card-text">Explore the beautiful sinusoidal function and its properties.</p>
+                    <a href="{{ site.baseurl }}/graphs/sine" class="btn btn-primary">View Graph</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Parabola</h5>
+                    <p class="card-text">Discover quadratic functions and their applications.</p>
+                    <a href="{{ site.baseurl }}/graphs/parabola" class="btn btn-primary">View Graph</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Unit Circle</h5>
+                    <p class="card-text">Understand trigonometry through the unit circle visualization.</p>
+                    <a href="{{ site.baseurl }}/graphs/unit-circle" class="btn btn-primary">View Graph</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elt = document.getElementById('calculator');
+        var calculator = Desmos.GraphingCalculator(elt, {
+            keypad: false,
+            expressions: false,
+            settingsMenu: false
+        });
+        
+        // Add a simple animation
+        calculator.setExpression({
+            id: 'graph1',
+            latex: 'y=\\sin(x-t)',
+            color: '#1565c0'
+        });
+        
+        var t = 0;
+        setInterval(function() {
+            t += 0.1;
+            calculator.setExpression({
+                id: 'graph1',
+                latex: `y=\\sin(x-${t})`
+            });
+        }, 50);
+    });
+</script>
