@@ -115,9 +115,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     renderGraphs(searchInput.value, tag);
                 });
                 tagsContainer.appendChild(badge);
-            });            // Set up iframe preview
+            });            // Set up iframe preview with disabled interaction
             const iframe = previewContainer.querySelector('iframe');
-            iframe.src = graph.graphLink + '?embed';
+            const embedParams = [
+                'embed',
+                'settingsMenu=0',
+                'zoomButtons=0',
+                'expressions=0',
+                'keypad=0',
+                'lockViewport=1',
+                'hideHorizontal=1',
+                'hideVertical=1',
+                'disableMouseInteraction=1'
+            ].join('&');
+            iframe.src = `${graph.graphLink}?${embedParams}`;
 
             // Set up view button
             const viewButton = clone.querySelector('.view-graph');
