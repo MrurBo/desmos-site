@@ -83,7 +83,7 @@ title: Graph Browser
         const toggleTagsBtn = document.getElementById('toggleTags');
         const clearSearch = document.getElementById('clearSearch');
         const template = document.getElementById(
-        'graphCardTemplate'); // Fetch graphs data    // Fetch both graphs and tags data
+            'graphCardTemplate'); // Fetch graphs data    // Fetch both graphs and tags data
         Promise.all([
                 fetch('{{ site.baseurl }}/graphs.json').then(response => response.json()),
                 fetch('{{ site.baseurl }}/tags.json').then(response => response.json())
@@ -140,8 +140,9 @@ title: Graph Browser
                 const matchesSearch = !searchTerm ||
                     graph.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     graph.description.toLowerCase().includes(searchTerm.toLowerCase());
+                // Change to check if graph has ALL selected tags instead of ANY
                 const matchesTags = selectedTags.size === 0 ||
-                    graph.tags.some(tag => selectedTags.has(tag));
+                    Array.from(selectedTags).every(tag => graph.tags.includes(tag));
                 return matchesSearch && matchesTags;
             });
 
@@ -197,7 +198,8 @@ title: Graph Browser
                 // Set up view button
                 const viewButton = clone.querySelector('.view-graph');
                 viewButton.href = graph.graphLink;
-                graphsContainer.appendChild(clone);            });
+                graphsContainer.appendChild(clone);
+            });
             // Initialize tooltips
             const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
             tooltips.forEach(tooltip => {
