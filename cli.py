@@ -1,6 +1,71 @@
 import json
-import os
-from typing import Dict, List
+import def load_tags() -> Dict:
+    """Load tags from the JSON file."""
+    tags_file = os.path.join(os.path.dirname(__file__), '_data', 'tags.json')
+    try:
+        with open(tags_file, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"tags": []}
+
+def save_tags(data: Dict) -> None:
+    """Save tags to the JSON file."""
+    tags_file = os.path.join(os.path.dirname(__file__), '_data', 'tags.json')
+    with open(tags_file, 'w') as f:
+        json.dump(data, f, indent=2)
+
+def update_tag_counts() -> None:
+    """Update the count of each tag based on graph usage."""
+    graphs_data = load_graphs()
+    tags_data = load_tags()
+    
+    # Reset all counts to 0
+    for tag in tags_data['tags']:
+        tag['count'] = 0
+    
+    # Count tag usage
+    tag_counts = {}
+    for graph in graphs_data['graphs']:
+        for tag in graph['tags']:
+            tag_counts[tag] = tag_counts.get(tag, 0) + 1
+    
+    # Update existing tags and add new ones
+    existing_tags = {tag['name'] for tag in tags_data['tags']}
+    for tag_name, count in tag_counts.items():
+        if tag_name in existing_tags:
+            for tag in tags_data['tags']:
+                if tag['name'] == tag_name:
+                    tag['count'] = count
+                    break
+        else:
+            tags_data['tags'].append({
+                'name': tag_name,
+                'description': '',  # Empty description for new tags
+                'count': count
+            })
+    
+    save_tags(tags_data)
+
+def validate_tags(tags_list: List[str]) -> bool:
+    """Validate that required tags are included."""
+    required_tags = {'graphs', 'geometry', '3d'}
+    tag_types = set(tag.strip() for tag in tags_list)
+    
+    # Check if the graph uses any of the required tag types
+    has_required = any(tag in required_tags for tag in tag_types)
+    
+    if not has_required:
+        raise ValueError('Must include at least one of these tags: graphs, geometry, or 3d')
+    
+    return True
+
+def load_graphs() -> Dict:
+    """Load graphs from the JSON file."""
+    try:
+        with open(DATA_FILE, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"graphs": []}m typing import Dict, List
 import click
 from rich.console import Console
 from rich.table import Table

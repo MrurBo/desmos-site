@@ -1,0 +1,34 @@
+{
+  "tags": [
+    {
+      "name": "graphs",
+      "description": "Standard function graphs and visualizations",
+      "count": 0
+    },
+    {
+      "name": "geometry",
+      "description": "Geometric constructions and demonstrations",
+      "count": 0
+    },
+    {
+      "name": "3d",
+      "description": "Three-dimensional visualizations",
+      "count": 0
+    },
+    {
+      "name": "space",
+      "description": "Space and astronomy related graphs",
+      "count": 1
+    },
+    {
+      "name": "functions",
+      "description": "Mathematical function demonstrations",
+      "count": 1
+    },
+    {
+      "name": "easing",
+      "description": "Easing and animation functions",
+      "count": 1
+    }
+  ]
+}

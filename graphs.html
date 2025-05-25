@@ -59,25 +59,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const tagFilter = document.getElementById('tagFilter');
     const clearSearch = document.getElementById('clearSearch');
-    const template = document.getElementById('graphCardTemplate');    // Fetch graphs data
-    fetch('{{ site.baseurl }}/graphs.json')
-        .then(response => response.json())
-        .then(data => {
-            graphs = data.graphs;
-            
-            // Collect unique tags
-            const tags = new Set();
-            graphs.forEach(graph => {
-                graph.tags.forEach(tag => tags.add(tag));
-            });
-            
-            // Populate tag filter
-            tags.forEach(tag => {
-                const option = document.createElement('option');
-                option.value = tag;
-                option.textContent = tag;
-                tagFilter.appendChild(option);
-            });
+    const template = document.getElementById('graphCardTemplate');    // Fetch graphs data    // Fetch both graphs and tags data
+    Promise.all([
+        fetch('{{ site.baseurl }}/graphs.json').then(response => response.json()),
+        fetch('{{ site.baseurl }}/tags.json').then(response => response.json())
+    ])
+    .then(([graphsData, tagsData]) => {
+        graphs = graphsData.graphs;
+        
+        // Sort tags by count (most used first)
+        const sortedTags = tagsData.tags.sort((a, b) => b.count - a.count);
+        
+        // Populate tag filter with counts
+        sortedTags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag.name;
+            option.textContent = `${tag.name} (${tag.count})`;
+            tagFilter.appendChild(option);
+        });
             
             renderGraphs();
         });
@@ -104,18 +103,25 @@ document.addEventListener('DOMContentLoaded', function() {
             
             title.textContent = graph.title;
             description.textContent = graph.description;
-            
-            // Add tags
-            graph.tags.forEach(tag => {
+              // Add tags with descriptions from tags data
+            graph.tags.forEach(tagName => {
                 const badge = document.createElement('span');
                 badge.className = 'badge bg-secondary tag-badge';
-                badge.textContent = tag;
+                badge.textContent = tagName;
+                
+                // Find tag info from tags.json
+                const tagInfo = tagsData.tags.find(t => t.name === tagName);
+                if (tagInfo && tagInfo.description) {
+                    badge.title = tagInfo.description; // Add tooltip
+                    badge.setAttribute('data-bs-toggle', 'tooltip');
+                }
+                
                 badge.addEventListener('click', () => {
-                    tagFilter.value = tag;
-                    renderGraphs(searchInput.value, tag);
+                    tagFilter.value = tagName;
+                    renderGraphs(searchInput.value, tagName);
                 });
                 tagsContainer.appendChild(badge);
-            });            // Set up iframe preview with disabled interaction
+            });// Set up iframe preview with disabled interaction
             const iframe = previewContainer.querySelector('iframe');
             const embedParams = [
                 'embed',
@@ -133,8 +139,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set up view button
             const viewButton = clone.querySelector('.view-graph');
             viewButton.href = graph.graphLink;
-            
-            graphsContainer.appendChild(clone);
+              graphsContainer.appendChild(clone);
+        });
+        
+        // Initialize tooltips
+        const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltips.forEach(tooltip => {
+            new bootstrap.Tooltip(tooltip);
         });
     }
 
