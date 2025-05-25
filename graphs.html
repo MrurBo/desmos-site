@@ -107,6 +107,12 @@ title: Graph Browser
                     }
 
                     button.addEventListener('click', () => {
+                        // Destroy tooltip before toggling selection
+                        const tooltip = bootstrap.Tooltip.getInstance(button);
+                        if (tooltip) {
+                            tooltip.dispose();
+                        }
+
                         button.classList.toggle('selected');
                         if (button.classList.contains('selected')) {
                             selectedTags.add(tag.name);
@@ -114,6 +120,9 @@ title: Graph Browser
                             selectedTags.delete(tag.name);
                         }
                         renderGraphs(searchInput.value);
+
+                        // Reinitialize tooltip after state change
+                        new bootstrap.Tooltip(button);
                     });
 
                     tagFilters.appendChild(button);
@@ -174,9 +183,18 @@ title: Graph Browser
                         const filterBtn = document.querySelector(
                             `.tag-filter[data-tag="${tagName}"]`);
                         if (filterBtn) {
+                            // Destroy tooltip of the filter button before changing state
+                            const tooltip = bootstrap.Tooltip.getInstance(filterBtn);
+                            if (tooltip) {
+                                tooltip.dispose();
+                            }
+
                             filterBtn.classList.add('selected');
                             selectedTags.add(tagName);
                             renderGraphs(searchInput.value);
+
+                            // Reinitialize tooltip
+                            new bootstrap.Tooltip(filterBtn);
                         }
                     });
                     tagsContainer.appendChild(badge);
