@@ -5,18 +5,16 @@ title: Graph Browser
 
 <div class="container mt-4">
     <h1 class="mb-4">Graph Browser</h1>
-    
-    <div class="row mb-4">
-        <div class="col">
-            <div class="input-group">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search graphs...">
-                <button class="btn btn-outline-secondary" type="button" id="clearSearch">Clear</button>
-            </div>
+      <div class="mb-4">
+        <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search graphs...">
+            <button class="btn btn-outline-secondary" type="button" id="clearSearch">Clear</button>
         </div>
-        <div class="col-auto">
-            <select id="tagFilter" class="form-select">
-                <option value="">All Tags</option>
-            </select>
+        <div id="tagFilters" class="mb-2">
+            <!-- Tags will be inserted here -->
+        </div>
+        <div class="text-center mb-2">
+            <button id="toggleTags" class="btn btn-sm btn-link d-none">Show more tags</button>
         </div>
     </div>
 
@@ -45,51 +43,96 @@ title: Graph Browser
         margin-right: 0.5rem;
         margin-bottom: 0.5rem;
         cursor: pointer;
-    }
-    .calculator-preview {
+    }    .calculator-preview {
         background-color: #f8f9fa;
         border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .tag-filter {
+        margin: 0.25rem;
+        transition: all 0.2s;
+    }
+    .tag-filter.selected {
+        background-color: #0d6efd;
+        color: white;
+    }
+    #tagFilters {
+        max-height: 120px;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+    #tagFilters.expanded {
+        max-height: none;
     }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let graphs = [];
+    let tagsData = null;
+    let selectedTags = new Set();
     const graphsContainer = document.getElementById('graphsContainer');
     const searchInput = document.getElementById('searchInput');
-    const tagFilter = document.getElementById('tagFilter');
+    const tagFilters = document.getElementById('tagFilters');
+    const toggleTagsBtn = document.getElementById('toggleTags');
     const clearSearch = document.getElementById('clearSearch');
-    const template = document.getElementById('graphCardTemplate');    // Fetch graphs data    // Fetch both graphs and tags data
+    const template = document.getElementById('graphCardTemplate');// Fetch graphs data    // Fetch both graphs and tags data
     Promise.all([
         fetch('{{ site.baseurl }}/graphs.json').then(response => response.json()),
         fetch('{{ site.baseurl }}/tags.json').then(response => response.json())
     ])
-    .then(([graphsData, tagsData]) => {
+    .then(([graphsData, fetchedTagsData]) => {
         graphs = graphsData.graphs;
-        
+        tagsData = fetchedTagsData;
+          
         // Sort tags by count (most used first)
         const sortedTags = tagsData.tags.sort((a, b) => b.count - a.count);
         
-        // Populate tag filter with counts
+        // Populate tag filters
         sortedTags.forEach(tag => {
-            const option = document.createElement('option');
-            option.value = tag.name;
-            option.textContent = `${tag.name} (${tag.count})`;
-            tagFilter.appendChild(option);
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-primary btn-sm tag-filter';
+            button.setAttribute('data-tag', tag.name);
+            button.textContent = `${tag.name} (${tag.count})`;
+            if (tag.description) {
+                button.setAttribute('data-bs-toggle', 'tooltip');
+                button.title = tag.description;
+            }
+            
+            button.addEventListener('click', () => {
+                button.classList.toggle('selected');
+                if (button.classList.contains('selected')) {
+                    selectedTags.add(tag.name);
+                } else {
+                    selectedTags.delete(tag.name);
+                }
+                renderGraphs(searchInput.value);
+            });
+            
+            tagFilters.appendChild(button);
         });
+        
+        // Show/hide toggle button if needed
+        if (tagFilters.scrollHeight > 120) {
+            toggleTagsBtn.classList.remove('d-none');
+            toggleTagsBtn.addEventListener('click', () => {
+                tagFilters.classList.toggle('expanded');
+                toggleTagsBtn.textContent = tagFilters.classList.contains('expanded') 
+                    ? 'Show fewer tags' 
+                    : 'Show more tags';
+            });
+        }
             
             renderGraphs();
-        });
-
-    function renderGraphs(searchTerm = '', tagFilter = '') {
+        });    function renderGraphs(searchTerm = '') {
         graphsContainer.innerHTML = '';
         
         const filteredGraphs = graphs.filter(graph => {
             const matchesSearch = !searchTerm || 
                 graph.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 graph.description.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesTag = !tagFilter || graph.tags.includes(tagFilter);
-            return matchesSearch && matchesTag;
+            const matchesTags = selectedTags.size === 0 || 
+                graph.tags.some(tag => selectedTags.has(tag));
+            return matchesSearch && matchesTags;
         });
 
         filteredGraphs.forEach(graph => {
@@ -115,10 +158,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     badge.title = tagInfo.description; // Add tooltip
                     badge.setAttribute('data-bs-toggle', 'tooltip');
                 }
-                
-                badge.addEventListener('click', () => {
-                    tagFilter.value = tagName;
-                    renderGraphs(searchInput.value, tagName);
+                  badge.addEventListener('click', () => {
+                    // Select the corresponding tag filter button
+                    const filterBtn = document.querySelector(`.tag-filter[data-tag="${tagName}"]`);
+                    if (filterBtn) {
+                        filterBtn.classList.add('selected');
+                        selectedTags.add(tagName);
+                        renderGraphs(searchInput.value);
+                    }
                 });
                 tagsContainer.appendChild(badge);
             });// Set up iframe preview with disabled interaction
@@ -149,18 +196,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listeners
-    searchInput.addEventListener('input', () => {
-        renderGraphs(searchInput.value, tagFilter.value);
-    });
-
-    tagFilter.addEventListener('change', () => {
-        renderGraphs(searchInput.value, tagFilter.value);
+    // Event listeners    searchInput.addEventListener('input', () => {
+        renderGraphs(searchInput.value);
     });
 
     clearSearch.addEventListener('click', () => {
         searchInput.value = '';
-        tagFilter.value = '';
+        selectedTags.clear();
+        document.querySelectorAll('.tag-filter').forEach(btn => {
+            btn.classList.remove('selected');
+        });
         renderGraphs();
     });
 });
