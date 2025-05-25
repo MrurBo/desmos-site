@@ -1,28 +1,30 @@
 {
   "graphs": [
     {
-      "id": "sine-wave",
-      "title": "Sine Wave Explorer",
-      "description": "An interactive visualization of sine waves with adjustable amplitude, frequency, and phase.",
-      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
-      "graphLink": "https://www.desmos.com/calculator/auwndt8szw",
-      "tags": ["trigonometry", "periodic functions"]
+      "id": "solar-system",
+      "title": "Solar System",
+      "description": "A solar system I made, including all planets, moons, and textures for the Earth and Moon!",
+      "author": "MrurBo",
+      "graphLink": "https://www.desmos.com/calculator/odqlukyktf",
+      "thumbnail": "https://www.desmos.com/calculator/odqlukyktf/thumbnail",
+      "tags": [
+        "solar system",
+        "graph",
+        "space"
+      ]
     },
     {
-      "id": "quadratic",
-      "title": "Quadratic Function",
-      "description": "Explore how changing coefficients affects the shape of parabolas.",
-      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
-      "graphLink": "https://www.desmos.com/calculator/sojhkhsylq",
-      "tags": ["algebra", "polynomials"]
-    },
-    {
-      "id": "unit-circle",
-      "title": "Unit Circle",
-      "description": "Visualize trigonometric relationships on the unit circle.",
-      "thumbnail": "https://s3.amazonaws.com/desmos/img/calc_thumb.png",
-      "graphLink": "https://www.desmos.com/calculator/jf6wjwo4jk",
-      "tags": ["trigonometry", "geometry"]
+      "id": "easing-functions",
+      "title": "Easing Functions",
+      "author": "MrurBo",
+      "description": "Easing functions showcase",
+      "graphLink": "https://www.desmos.com/calculator/dvveiefcyq",
+      "thumbnail": "https://www.desmos.com/calculator/dvveiefcyq/thumbnail",
+      "tags": [
+        "easing",
+        "graph",
+        "functions"
+      ]
     }
   ]
 }
