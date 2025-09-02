@@ -25,6 +25,20 @@
         "graph",
         "functions"
       ]
+    },
+    {
+      "id": "trianlge-ray-intersection",
+      "title": "Trianlge Ray Intersection",
+      "author": "Einemillarde",
+      "description": "Finds where a given ray intersects a given triangle.",
+      "graphLink": "https://www.desmos.com/3d/8bltihnpj9",
+      "thumbnail": "https://www.desmos.com/3d/8bltihnpj9/thumbnail",
+      "tags": [
+        "3d",
+        "triangle",
+        "ray",
+        "rendering"
+      ]
     }
   ]
 }

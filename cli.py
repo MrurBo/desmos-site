@@ -12,71 +12,91 @@ import re
 console = Console()
 DATA_FILE = os.path.join(os.path.dirname(__file__), "_data", "graphs.json")
 
+
 def load_tags() -> Dict:
     """Load tags from the JSON file."""
-    tags_file = os.path.join(os.path.dirname(__file__), '_data', 'tags.json')
+    tags_file = os.path.join(os.path.dirname(__file__), "_data", "tags.json")
     try:
-        with open(tags_file, 'r') as f:
+        with open(tags_file, "r") as f:
             return json.load(f)
     except FileNotFoundError:
         return {"tags": []}
 
+
 def save_tags(data: Dict) -> None:
     """Save tags to the JSON file."""
-    tags_file = os.path.join(os.path.dirname(__file__), '_data', 'tags.json')
-    with open(tags_file, 'w') as f:
+    tags_file = os.path.join(os.path.dirname(__file__), "_data", "tags.json")
+    with open(tags_file, "w") as f:
         json.dump(data, f, indent=2)
+
 
 def update_tag_counts() -> None:
     """Update the count of each tag based on graph usage."""
     graphs_data = load_graphs()
     tags_data = load_tags()
-    
+
     # Reset all counts to 0
-    for tag in tags_data['tags']:
-        tag['count'] = 0
-    
+    for tag in tags_data["tags"]:
+        tag["count"] = 0
+
     # Count tag usage
     tag_counts = {}
-    for graph in graphs_data['graphs']:
-        for tag in graph['tags']:
+    for graph in graphs_data["graphs"]:
+        for tag in graph["tags"]:
             tag_counts[tag] = tag_counts.get(tag, 0) + 1
-    
+
     # Update existing tags and add new ones
-    existing_tags = {tag['name'] for tag in tags_data['tags']}
+    existing_tags = {tag["name"] for tag in tags_data["tags"]}
     for tag_name, count in tag_counts.items():
         if tag_name in existing_tags:
-            for tag in tags_data['tags']:
-                if tag['name'] == tag_name:
-                    tag['count'] = count
+            for tag in tags_data["tags"]:
+                if tag["name"] == tag_name:
+                    tag["count"] = count
                     break
         else:
-            tags_data['tags'].append({
-                'name': tag_name,
-                'description': '',  # Empty description for new tags
-                'count': count
-            })
-    
+            tags_data["tags"].append(
+                {
+                    "name": tag_name,
+                    "description": "",  # Empty description for new tags
+                    "count": count,
+                }
+            )
+
     save_tags(tags_data)
+
 
 def validate_tags(tags_list: List[str]) -> bool:
     """Validate that required tags are included and update tag counts."""
-    required_tags = {'graphs', 'geometry', '3d'}
+    required_tags = {"graphs", "geometry", "3d"}
     tag_types = set(tag.strip() for tag in tags_list)
-    
+
     # Check if the graph uses any of the required tag types
     has_required = any(tag in required_tags for tag in tag_types)
-    
+
     if not has_required:
-        raise ValueError('Must include at least one of these tags: graphs, geometry, or 3d')
-    
+        raise ValueError(
+            "Must include at least one of these tags: graphs, geometry, or 3d"
+        )
+
     return True
+
 
 def validate_url(text: str) -> bool:
     """Validate that the URL is a Desmos calculator link."""
-    if not text.startswith("https://www.desmos.com/calculator/"):
-        raise ValueError("URL must be a Desmos calculator link")
-    return True
+    if text.startswith("https://www.desmos.com/calculator/"):
+        return True
+    if text.startswith("https://desmos.com/calculator/"):
+        return True
+    if text.startswith("https://www.desmos.com/geometry/"):
+        return True
+    if text.startswith("https://desmos.com/geometry/"):
+        return True
+    if text.startswith("https://www.desmos.com/3d/"):
+        return True
+    if text.startswith("https://desmos.com/3d/"):
+        return True
+    return False
+
 
 def load_graphs() -> Dict:
     """Load graphs from the JSON file."""
@@ -86,11 +106,13 @@ def load_graphs() -> Dict:
     except FileNotFoundError:
         return {"graphs": []}
 
+
 def save_graphs(data: Dict) -> None:
     """Save graphs to the JSON file and update tag counts."""
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=2)
     update_tag_counts()
+
 
 def display_graphs(graphs: List[Dict]) -> None:
     """Display graphs in a rich table."""
@@ -122,10 +144,12 @@ def display_graphs(graphs: List[Dict]) -> None:
 
     console.print(table)
 
+
 @click.group()
 def cli():
     """Desmos Graphs Manager - A tool to manage your Desmos graphs collection."""
     pass
+
 
 @cli.command()
 def list():
@@ -133,6 +157,7 @@ def list():
     data = load_graphs()
     console.print(Panel.fit("[bold blue]Desmos Graphs[/bold blue]"))
     display_graphs(data["graphs"])
+
 
 @cli.command()
 def add():
@@ -197,6 +222,7 @@ def add():
     save_graphs(data)
     console.print("[green]Graph added successfully![/green]")
     display_graphs([new_graph])
+
 
 @cli.command()
 def edit():
@@ -267,6 +293,7 @@ def edit():
     console.print("[green]Graph updated successfully![/green]")
     display_graphs([graph])
 
+
 @cli.command()
 def delete():
     """Delete a graph"""
@@ -297,6 +324,7 @@ def delete():
     console.print("[green]Graph deleted successfully![/green]")
     console.print("[dim]Deleted graph:[/dim]")
     display_graphs([deleted_graph])
+
 
 if __name__ == "__main__":
     cli()

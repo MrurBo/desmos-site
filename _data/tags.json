@@ -13,7 +13,7 @@
     {
       "name": "3d",
       "description": "Three-dimensional visualizations",
-      "count": 0
+      "count": 1
     },
     {
       "name": "space",
@@ -28,6 +28,31 @@
     {
       "name": "easing",
       "description": "Easing and animation functions",
+      "count": 1
+    },
+    {
+      "name": "solar system",
+      "description": "",
+      "count": 1
+    },
+    {
+      "name": "graph",
+      "description": "",
+      "count": 2
+    },
+    {
+      "name": "triangle",
+      "description": "",
+      "count": 1
+    },
+    {
+      "name": "ray",
+      "description": "",
+      "count": 1
+    },
+    {
+      "name": "rendering",
+      "description": "",
       "count": 1
     }
   ]
