@@ -1,59 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Home - Desmos Graphs</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-    <style>
-        .calculator {
-            width: 100%;
-            height: 400px;
-            margin: 20px 0;
-        }
-        .hero {
-            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
-            color: white;
-            padding: 4rem 0;
-        }
-        .card {
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">Desmos Graphs</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="/graphs">Graphs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="/about">About</a>
-                    </li>
-                </ul>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Home - Desmos Graphs</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://www.desmos.com/api/v1.13/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+        <style>
+            .calculator {
+                width: 100%;
+                height: 400px;
+                margin: 20px 0;
+            }
+            .hero {
+                background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+                color: white;
+                padding: 4rem 0;
+            }
+            .card {
+                transition: transform 0.2s;
+            }
+            .card:hover {
+                transform: translateY(-5px);
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/"
+                    >Desmos Graphs</a
+                >
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link active"
+                                href="/"
+                                >Home</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link "
+                                href="/graphs"
+                                >Graphs</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link "
+                                href="/about"
+                                >About</a
+                            >
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="hero">
+        <div class="hero">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
                 <h1 class="display-4">Interactive Math Visualizations</h1>
-                <p class="lead">Explore mathematical concepts through interactive Desmos graphs</p>
-                <a href="/graphs" class="btn btn-light btn-lg">Explore Graphs</a>
+                <p class="lead">
+                    Explore mathematical concepts through interactive Desmos
+                    graphs
+                </p>
+                <a href="/graphs" class="btn btn-light btn-lg"
+                    >Explore Graphs</a
+                >
             </div>
             <div class="col-md-6">
                 <div id="calculator" class="calculator"></div>
@@ -62,80 +91,49 @@
     </div>
 </div>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Featured Graphs</h2>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Sine Wave</h5>
-                    <p class="card-text">Explore the beautiful sinusoidal function and its properties.</p>
-                    <a href="/graphs/sine" class="btn btn-primary">View Graph</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Parabola</h5>
-                    <p class="card-text">Discover quadratic functions and their applications.</p>
-                    <a href="/graphs/parabola" class="btn btn-primary">View Graph</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Unit Circle</h5>
-                    <p class="card-text">Understand trigonometry through the unit circle visualization.</p>
-                    <a href="/graphs/unit-circle" class="btn btn-primary">View Graph</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var elt = document.getElementById('calculator');
+    document.addEventListener("DOMContentLoaded", function () {
+        var elt = document.getElementById("calculator");
         var calculator = Desmos.GraphingCalculator(elt, {
             keypad: false,
             expressions: false,
-            settingsMenu: false
+            settingsMenu: false,
         });
-        
-        // Add a simple animation
+
         calculator.setExpression({
-            id: 'graph1',
-            latex: 'y=\\sin(x-t)',
-            color: '#1565c0'
+            id: "graph1",
+            latex: "y=\\sin(x-t)",
+            color: "#1565c0",
         });
-        
+
         var t = 0;
-        setInterval(function() {
+        setInterval(function () {
             t += 0.1;
             calculator.setExpression({
-                id: 'graph1',
-                latex: `y=\\sin(x-${t})`
+                id: "graph1",
+                latex: `y=\\sin(x-${t})`,
             });
         }, 50);
     });
 </script>
 
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Desmos Graphs</h5>
-                    <p>A collection of interactive mathematical visualizations</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p>&copy; 2026 Desmos Graphs. All rights reserved.</p>
+
+        <footer class="bg-dark text-white py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Desmos Graphs</h5>
+                        <p>A collection of interactive mathematical visualizations</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p>
+                            &copy; 2026 Desmos Graphs. All rights reserved.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
