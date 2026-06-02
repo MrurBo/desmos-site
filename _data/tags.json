@@ -3,7 +3,7 @@
     {
       "name": "graphs",
       "description": "Standard function graphs and visualizations",
-      "count": 0
+      "count": 1
     },
     {
       "name": "geometry",
@@ -23,7 +23,7 @@
     {
       "name": "functions",
       "description": "Mathematical function demonstrations",
-      "count": 1
+      "count": 2
     },
     {
       "name": "easing",
@@ -31,13 +31,8 @@
       "count": 1
     },
     {
-      "name": "solar system",
-      "description": "",
-      "count": 1
-    },
-    {
       "name": "graph",
-      "description": "",
+      "description": "Basic graph",
       "count": 2
     },
     {
@@ -46,12 +41,17 @@
       "count": 1
     },
     {
-      "name": "ray",
+      "name": "rendering",
       "description": "",
       "count": 1
     },
     {
-      "name": "rendering",
+      "name": "solar system",
+      "description": "",
+      "count": 1
+    },
+    {
+      "name": "ray",
       "description": "",
       "count": 1
     }
