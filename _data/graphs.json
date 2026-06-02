@@ -6,12 +6,7 @@
       "description": "A solar system I made, including all planets, moons, and textures for the Earth and Moon!",
       "author": "MrurBo",
       "graphLink": "https://www.desmos.com/calculator/odqlukyktf",
-      "thumbnail": "https://www.desmos.com/calculator/odqlukyktf/thumbnail",
-      "tags": [
-        "solar system",
-        "graph",
-        "space"
-      ]
+      "thumbnail": "https://www.desmos.com/calculator/odqlukyktf/thumbnail"
     },
     {
       "id": "easing-functions",
@@ -19,26 +14,15 @@
       "author": "MrurBo",
       "description": "Easing functions showcase",
       "graphLink": "https://www.desmos.com/calculator/dvveiefcyq",
-      "thumbnail": "https://www.desmos.com/calculator/dvveiefcyq/thumbnail",
-      "tags": [
-        "easing",
-        "graph",
-        "functions"
-      ]
+      "thumbnail": "https://www.desmos.com/calculator/dvveiefcyq/thumbnail"
     },
     {
-      "id": "trianlge-ray-intersection",
-      "title": "Trianlge Ray Intersection",
+      "id": "triangle-ray-intersection",
+      "title": "Triangle Ray Intersection",
       "author": "Einemillarde",
       "description": "Finds where a given ray intersects a given triangle.",
       "graphLink": "https://www.desmos.com/3d/8bltihnpj9",
-      "thumbnail": "https://www.desmos.com/3d/8bltihnpj9/thumbnail",
-      "tags": [
-        "3d",
-        "triangle",
-        "ray",
-        "rendering"
-      ]
+      "thumbnail": "https://www.desmos.com/3d/8bltihnpj9/thumbnail"
     },
     {
       "id": "3x1",
@@ -46,11 +30,7 @@
       "author": "MrurBo",
       "description": "A demonstration of the Collatz conjecture, in desmos. https://en.wikipedia.org/wiki/Collatz_conjecture",
       "graphLink": "https://www.desmos.com/calculator/543h7v2yce",
-      "thumbnail": "https://www.desmos.com/calculator/543h7v2yce/thumbnail",
-      "tags": [
-        "graphs",
-        "functions"
-      ]
+      "thumbnail": "https://www.desmos.com/calculator/543h7v2yce/thumbnail"
     }
   ]
 }
