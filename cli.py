@@ -12,75 +12,6 @@ import re
 console = Console()
 DATA_FILE = os.path.join(os.path.dirname(__file__), "_data", "graphs.json")
 
-
-def load_tags() -> Dict:
-    """Load tags from the JSON file."""
-    tags_file = os.path.join(os.path.dirname(__file__), "_data", "tags.json")
-    try:
-        with open(tags_file, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {"tags": []}
-
-
-def save_tags(data: Dict) -> None:
-    """Save tags to the JSON file."""
-    tags_file = os.path.join(os.path.dirname(__file__), "_data", "tags.json")
-    with open(tags_file, "w") as f:
-        json.dump(data, f, indent=2)
-
-
-def update_tag_counts() -> None:
-    """Update the count of each tag based on graph usage."""
-    graphs_data = load_graphs()
-    tags_data = load_tags()
-
-    # Reset all counts to 0
-    for tag in tags_data["tags"]:
-        tag["count"] = 0
-
-    # Count tag usage
-    tag_counts = {}
-    for graph in graphs_data["graphs"]:
-        for tag in graph["tags"]:
-            tag_counts[tag] = tag_counts.get(tag, 0) + 1
-
-    # Update existing tags and add new ones
-    existing_tags = {tag["name"] for tag in tags_data["tags"]}
-    for tag_name, count in tag_counts.items():
-        if tag_name in existing_tags:
-            for tag in tags_data["tags"]:
-                if tag["name"] == tag_name:
-                    tag["count"] = count
-                    break
-        else:
-            tags_data["tags"].append(
-                {
-                    "name": tag_name,
-                    "description": "",  # Empty description for new tags
-                    "count": count,
-                }
-            )
-
-    save_tags(tags_data)
-
-
-def validate_tags(tags_list: List[str]) -> bool:
-    """Validate that required tags are included and update tag counts."""
-    required_tags = {"graphs", "geometry", "3d"}
-    tag_types = set(tag.strip() for tag in tags_list)
-
-    # Check if the graph uses any of the required tag types
-    has_required = any(tag in required_tags for tag in tag_types)
-
-    if not has_required:
-        raise ValueError(
-            "Must include at least one of these tags: graphs, geometry, or 3d"
-        )
-
-    return True
-
-
 def validate_url(text: str) -> bool:
     """Validate that the URL is a Desmos calculator link."""
     if text.startswith("https://www.desmos.com/calculator/"):
@@ -111,7 +42,6 @@ def save_graphs(data: Dict) -> None:
     """Save graphs to the JSON file and update tag counts."""
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=2)
-    update_tag_counts()
 
 
 def display_graphs(graphs: List[Dict]) -> None:
@@ -138,7 +68,6 @@ def display_graphs(graphs: List[Dict]) -> None:
                 if len(graph["description"]) > 50
                 else graph["description"]
             ),
-            ", ".join(graph["tags"]),
             graph["graphLink"],
         )
 
@@ -189,20 +118,6 @@ def add():
     if not graph_link:
         return
 
-    tags = questionary.text(
-        "Enter tags (comma-separated):", validate=lambda text: len(text) > 0
-    ).ask()
-    if not tags:
-        return
-
-    # Validate and process tags
-    tag_list = [tag.strip() for tag in tags.split(",")]
-    try:
-        validate_tags(tag_list)
-    except ValueError as e:
-        console.print(f"[red]Error: {str(e)}[/red]")
-        return
-
     data = load_graphs()
 
     # Generate ID from title
@@ -215,7 +130,6 @@ def add():
         "description": description,
         "graphLink": graph_link,
         "thumbnail": graph_link + "/thumbnail",
-        "tags": tag_list,
     }
 
     data["graphs"].append(new_graph)
@@ -267,27 +181,12 @@ def edit():
     if graph_link is None:
         return
 
-    tags = questionary.text(
-        "Enter new tags (comma-separated):", default=",".join(graph["tags"])
-    ).ask()
-    if tags is None:
-        return
-
-    # Validate and process tags
-    tag_list = [tag.strip() for tag in tags.split(",")]
-    try:
-        validate_tags(tag_list)
-    except ValueError as e:
-        console.print(f"[red]Error: {str(e)}[/red]")
-        return
-
     # Update the graph
     graph["title"] = title
     graph["author"] = author
     graph["description"] = description
     graph["graphLink"] = graph_link
     graph["thumbnail"] = graph_link + "/thumbnail"
-    graph["tags"] = tag_list
 
     save_graphs(data)
     console.print("[green]Graph updated successfully![/green]")
