@@ -2,3 +2,4 @@ source "https://rubygems.org"
 
 # Core Jekyll
 gem "jekyll", "~> 4.3"
+gem "minima", "~> 2.5"
