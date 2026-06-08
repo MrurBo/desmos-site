@@ -31,6 +31,62 @@
       "description": "A demonstration of the Collatz conjecture, in desmos. https://en.wikipedia.org/wiki/Collatz_conjecture",
       "graphLink": "https://www.desmos.com/calculator/543h7v2yce",
       "thumbnail": "https://www.desmos.com/calculator/543h7v2yce/thumbnail"
+    },
+    {
+      "id": "projectile-angle-calculator",
+      "title": "Projectile Angle Calculator",
+      "author": "Einemillarde",
+      "description": "Calculates the 2 angles a projectile can travel to hit a certain target given its initial position and speed",
+      "graphLink": "https://www.desmos.com/calculator/tmvk3qxqja",
+      "thumbnail": "https://www.desmos.com/calculator/tmvk3qxqja/thumbnail"
+    },
+    {
+      "id": "perlin-noise",
+      "title": "Perlin Noise",
+      "author": "Einemillarde",
+      "description": "Perlin noise generator",
+      "graphLink": "https://www.desmos.com/3d/41qhcp4x4z",
+      "thumbnail": "https://www.desmos.com/3d/41qhcp4x4z/thumbnail"
+    },
+    {
+      "id": "fourier-transform",
+      "title": "Fourier Transform",
+      "author": "Eineimillarde",
+      "description": "A way to visualise fourier transforms. Certain parts may lag out your computer quite a bit so handle with caution and patience",
+      "graphLink": "https://www.desmos.com/calculator/rg61iub4tv",
+      "thumbnail": "https://www.desmos.com/calculator/rg61iub4tv/thumbnail"
+    },
+    {
+      "id": "specularity-of-surfaces-function-visualiser",
+      "title": "Specularity Of Surfaces Function Visualiser",
+      "author": "Einemillarde",
+      "description": "A way to visualise how a surface specularly reflects light given its specular function and the angle to the viewer",
+      "graphLink": "https://www.desmos.com/calculator/ipkh1snpzy",
+      "thumbnail": "https://www.desmos.com/calculator/ipkh1snpzy/thumbnail"
+    },
+    {
+      "id": "mandelbrot-set",
+      "title": "Mandelbrot Set",
+      "author": "Einemillarde",
+      "description": "Mandelbrot set",
+      "graphLink": "https://www.desmos.com/calculator/qftvxzfnne",
+      "thumbnail": "https://www.desmos.com/calculator/qftvxzfnne/thumbnail"
+    },
+    {
+      "id": "linear-transformations",
+      "title": "Linear transformations",
+      "author": "Einemillarde",
+      "description": "A way to play around with linear transformations",
+      "graphLink": "https://www.desmos.com/calculator/z5r6mi3zb0",
+      "thumbnail": "https://www.desmos.com/calculator/z5r6mi3zb0/thumbnail"
+    },
+    {
+      "id": "donut",
+      "title": "Donut",
+      "author": "Einemillarde",
+      "description": "Donut eat the Donut",
+      "graphLink": "https://www.desmos.com/3d/qnk84n6wly",
+      "thumbnail": "https://www.desmos.com/3d/qnk84n6wly/thumbnail"
     }
   ]
 }
